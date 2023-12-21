@@ -1,10 +1,33 @@
 GET http://localhost:3000
 
-###Get all posts
-GET http://localhost:3000/api/posts
-###Get Single post
-GET http://localhost:3000/api/posts/6
-### admin Create table 
+### admin init
+
+GET http://localhost:3000/api/admin/init
+
+### admin create table
+
 GET http://localhost:3000/api/admin/create-table
-### admin fill posts  table 
+### admin create table
+
 GET http://localhost:3000/api/admin/populate-posts-table
+
+### Get all posts
+
+GET http://localhost:3000/api/posts
+
+
+### Get Single post
+
+GET http://localhost:3000/api/posts/6
+
+### Create post
+
+POST http://localhost:3000/api/posts/
+Content-Type: application/json
+
+{
+  "title": "Post from REST REST", 
+  "author": "James Rest", 
+  "date": "2000-01-02", 
+  "body": "This is some meanigful content"
+}
