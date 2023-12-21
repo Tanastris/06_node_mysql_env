@@ -19,6 +19,33 @@ app.use(morgan('dev'));
 app.get('/', function (req, res) {
   res.send('Hello World');
 });
+// GET - /api/admin/create-table - sukuria lentele
+app.get('/api/admin/create-table', async (req, res) => {
+  let conn;
+  try {
+    conn = await mysql.createConnection(dbConfig);
+    const sql = `CREATE TABLE posts 
+    (post_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+     title VARCHAR(255) NOT NULL, 
+     author VARCHAR(255) NOT NULL, 
+     date DATE NOT NULL DEFAULT CURRENT_TIMESTAMP, 
+     body TEXT NOT NULL, 
+     PRIMARY KEY (post_id)) ENGINE = InnoDB;`;
+    const [rows] = await conn.query(sql);
+    res.json(rows);
+  } catch (error) {
+    console.log(error);
+    console.log('klaida get posts');
+    res.status(500).json({
+      msg: 'Something went wrong',
+    });
+  } finally {
+    // atsijungti nuo DB
+    if (conn) conn.end();
+  }
+});
+
+// GET - http://localhost:3000/api/admin/populate-posts-table uzpildys  postais
 
 // GET - /api/posts - grazins visus postus
 app.get('/api/posts', async (req, res) => {

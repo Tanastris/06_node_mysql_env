@@ -4,3 +4,7 @@ GET http://localhost:3000
 GET http://localhost:3000/api/posts
 ###Get Single post
 GET http://localhost:3000/api/posts/6
+### admin Create table 
+GET http://localhost:3000/api/admin/create-table
+### admin fill posts  table 
+GET http://localhost:3000/api/admin/populate-posts-table
