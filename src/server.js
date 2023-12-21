@@ -22,9 +22,10 @@ app.get('/', function (req, res) {
 
 // GET - /api/posts - grazins visus postus
 app.get('/api/posts', async (req, res) => {
+  let conn;
   try {
     // prisijungti prie DB
-    const conn = await mysql.createConnection(dbConfig);
+    conn = await mysql.createConnection(dbConfig);
     // atlikti veikma
     const sql = 'SELECT * FROM `posts`';
     const [rows] = await conn.query(sql);
@@ -44,10 +45,11 @@ app.get('/api/posts', async (req, res) => {
 
 // GET - /api/posts/5 - grazins 5 posta
 app.get('/api/posts/:pId', async (req, res) => {
+  let conn;
   try {
     const pId = +req.params.pId;
     // prisijungti prie DB
-    const conn = await mysql.createConnection(dbConfig);
+    conn = await mysql.createConnection(dbConfig);
     const sql = 'SELECT * FROM `posts` WHERE `post_id`=?';
     // atlikti veikma
     const [rows] = await conn.execute(
@@ -68,6 +70,9 @@ app.get('/api/posts/:pId', async (req, res) => {
     res.status(500).json({
       msg: 'Something went wrong',
     });
+  } finally {
+    // atsijungti nuo DB
+    if (conn) conn.end();
   }
 });
 
